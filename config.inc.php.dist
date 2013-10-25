@@ -1,0 +1,37 @@
+<?php
+// ----------------------------------------------------------------------
+// Password Retrieval Plug In
+// ----------------------------------------------------------------------
+// Brings up a form at login fail, asking a Security Question and Account.
+// Plugin tries to guess which account, but can be entered as well.
+// Along with that, 3 Security Questions are presented and first they have
+// to remember which one they set, and second know what was entered.
+// This can be set in Settings Tab per Account.
+// Password Retrieval will not present itself, until it detects a login failure.
+//
+// The message that is Emailed to the user on correctly guessing/knowing the
+// Security question, gets this message from localization/ files for the language
+// that roundcube detects. If you want personalize this, please edit localization/
+// files for this plugin. It is in the $labels['email_message']. Please Note:
+// [support_url] and [product_name] are taken from roundcube settings.
+// -----------------------------------------------------------------------
+// How are your passwords encrypted? ... if at all
+// Possible Values: md5, sha1, '', 'PLAIN'
+// leaving it '', false or null means PLAIN no encryption will be used.
+$rcmail_config['password_revive_encrypt_method'] = '';
+
+// Must be a valid Email Address ... or '', null, false to turn off.
+// If you as Admin of this Webmail wish to be emailed what is emailed to the
+// user that lost their password, enter in any valid email address.  This way
+// you as Admin can monitor for hackers or record keeping.
+$rcmail_config['password_revive_admin_notify'] = 'you@domain.tld';
+
+// Currently only mysql is avail ...
+// enter the query that will change a users password
+// %p is replaced with the plaintext (encryted based on 'password_revive_encrypt_method'
+// %u is replaced with the username                    (username@domain.tld)
+// %l is replaced with the local part of the username  (username)
+// %d is replaced with the domain part of the username (domain)
+// Example: 'UPDATE mailbox SET password=%p WHERE username=%u AND active=1'
+// Do not use quotes around the % selectors, that will be done for you
+$rcmail_config['password_revive_query'] = "UPDATE mailbox SET password=%p WHERE username=%u active=1";
